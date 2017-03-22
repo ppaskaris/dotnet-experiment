@@ -28,6 +28,10 @@ namespace dotnet_experiment
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
             services.AddMvc();
         }
 

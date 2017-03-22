@@ -11,7 +11,6 @@ namespace dotnet_experiment.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-
         private static ConcurrentDictionary<int, string> m_db =
             new ConcurrentDictionary<int, string>();
         private static int m_counter = 0;
@@ -52,12 +51,13 @@ namespace dotnet_experiment.Controllers
                 return BadRequest();
             }
 
-            while (!m_db.TryAdd(Interlocked.Increment(ref m_counter), value))
+            int id;
+            while (!m_db.TryAdd(id = Interlocked.Increment(ref m_counter), value))
             {
                 // Spin until it works.
             }
 
-            return Ok(value);
+            return CreatedAtAction(nameof(Get), new { id }, value);
         }
 
         // PUT api/values/5
